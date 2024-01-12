@@ -7,16 +7,18 @@ import { ApiAlert } from "./api-alert";
 interface ApiListProps {
   entityName: string;
   entityIdName: string;
+  superAdmin?: boolean;
 }
 
 export const ApiList: React.FC<ApiListProps> = ({
   entityName,
   entityIdName,
+  superAdmin,
 }) => {
   const params = useParams();
   const origin = useOrigin();
 
-  const baseUrl = `${origin}/api/${params.storeId}`;
+  const baseUrl = `${origin}/api${!superAdmin ? `/${params.storeId}` : ""}`;
   return (
     <>
       <ApiAlert

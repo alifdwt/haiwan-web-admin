@@ -18,12 +18,16 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useClerk } from "@clerk/clerk-react";
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   name: z.string().min(1),
 });
 
 export const StoreModal = () => {
+  const { signOut } = useClerk();
+  const router = useRouter()
   const storeModal = useStoreModal();
 
   const [loading, setLoading] = useState(false);
@@ -76,7 +80,11 @@ export const StoreModal = () => {
                 </FormItem>
               )}
             />
-            <div className="pt-6 space-x-2 flex items-center justify-end w-full">
+            <div className="pt-6 space-x-2 flex items-center justify-between w-full">
+              <Button onClick={() => signOut(() => router.push("/"))}>
+                Sign Out
+              </Button>
+              <div>
               <Button
                 disabled={loading}
                 variant="outline"
@@ -87,6 +95,7 @@ export const StoreModal = () => {
               <Button disabled={loading} type="submit">
                 Continue
               </Button>
+              </div>
             </div>
           </form>
         </Form>

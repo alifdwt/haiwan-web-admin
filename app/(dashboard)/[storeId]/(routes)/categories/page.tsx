@@ -12,7 +12,7 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
       billboard: true,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "asc",
     },
   });
 
