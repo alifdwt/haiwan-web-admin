@@ -15,6 +15,7 @@ model Animal {
   id          String      @id @default(uuid())
   name        String
   animal_categories    AnimalCategory[]  @relation("AnimalCategoryToAnimal")
+  products    Product[]   @relation("AnimalToProduct")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @default(now())
 }
@@ -24,6 +25,7 @@ model AnimalCategory {
   name        String
   animalId    String
   animal      Animal      @relation("AnimalCategoryToAnimal", fields: [animalId], references: [id])
+  product     Product[]   @relation("AnimalCategoryToProduct")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @default(now())
 
@@ -75,14 +77,22 @@ model Product {
   store       Store       @relation("StoreToProduct", fields: [storeId], references: [id])
   categoryId  String
   category    Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  animalId    String
+  animal      Animal      @relation("AnimalToProduct", fields: [animalId], references: [id])
+  animalCategoryId  String  
+  animalCategory  AnimalCategory  @relation("AnimalCategoryToProduct", fields: [animalCategoryId], references: [id])
   name        String
   price       Decimal
   isFeatured  Boolean     @default(false)
   isArchived  Boolean     @default(false)
   images      Image[]
+  createdAt   DateTime    @default(now())
+  updateAt    DateTime    @updatedAt
 
   @@index([storeId])
   @@index([categoryId])
+  @@index([animalId])
+  @@index([animalCategoryId])
 }
 
 model Image {

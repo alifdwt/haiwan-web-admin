@@ -25,6 +25,7 @@ export async function POST(req: Request) {
 
     const animalCategory = await prismadb.animalCategory.create({
       data: {
+        id: name.replaceAll(" ", "-").toLowerCase(),
         name,
         animalId,
       },

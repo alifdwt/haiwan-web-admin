@@ -35,7 +35,14 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const animals = await prismadb.animal.findMany();
+    const animals = await prismadb.animal.findMany({
+      include: {
+        animal_categories: true,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
 
     return NextResponse.json(animals);
   } catch (error) {
